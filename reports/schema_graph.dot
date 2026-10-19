@@ -1,0 +1,42 @@
+digraph SchemaGraph {
+    rankdir=LR;
+    node [shape=record, style="filled,rounded", fontname="Helvetica", fontsize=10];
+    edge [fontname="Helvetica", fontsize=9, color="#444444", arrowhead=vee];
+
+    Users [label="{Users | <pk> PK: user_id | github_user_id\nlogin\nis_bot\nis_cohort\nfirst_seen_at}", fillcolor="#D1E7DD", color="#0F5132"];
+    Repositories [label="{Repositories | <pk> PK: repo_id | github_repo_id\nname\nowner_login\norg_id\norg_login\nfirst_seen_at}", fillcolor="#D1E7DD", color="#0F5132"];
+
+    PullRequests [label="{PullRequests | <pk> PK: pr_id | <fk_repo> FK: repo_id \-\> Repositories\n<fk_author> FK: author_id \-\> Users\n<fk_merged_by> FK: merged_by_id \-\> Users (known later)\nnumber, title, draft\nhead_ref, base_ref...}", fillcolor="#FFF3CD", color="#664D03"];
+    Issues [label="{Issues | <pk> PK: issue_id | <fk_repo> FK: repo_id \-\> Repositories\n<fk_author> FK: author_id \-\> Users\n<fk_pr> FK: pull_request_id \-\> PullRequests\n<fk_assignee> FK: assignee_id \-\> Users\nnumber, title, body...}", fillcolor="#FFF3CD", color="#664D03"];
+    IssueComments [label="{IssueComments | <pk> PK: comment_id | <fk_issue> FK: issue_id \-\> Issues\n<fk_repo> FK: repo_id \-\> Repositories\n<fk_author> FK: author_id \-\> Users\nbody, created_at...}", fillcolor="#CFF4FC", color="#055160"];
+    PRReviews [label="{PRReviews | <pk> PK: review_id | <fk_pr> FK: pr_id \-\> PullRequests\n<fk_repo> FK: repo_id \-\> Repositories\n<fk_reviewer> FK: reviewer_id \-\> Users\nstate, body, submitted_at...}", fillcolor="#CFF4FC", color="#055160"];
+    PRReviewComments [label="{PRReviewComments | <pk> PK: comment_id | <fk_pr> FK: pr_id \-\> PullRequests\n<fk_repo> FK: repo_id \-\> Repositories\n<fk_author> FK: author_id \-\> Users\n<fk_review> FK: pull_request_review_id \-\> PRReviews\n<fk_reply> FK: in_reply_to_id \-\> PRReviewComments\npath, body, created_at...}", fillcolor="#F8D7DA", color="#842029"];
+    Pushes [label="{Pushes | <pk> PK: push_id | <fk_user> FK: user_id \-\> Users\n<fk_repo> FK: repo_id \-\> Repositories\nref, ref_type, branch\nis_new_ref, created_at...}", fillcolor="#E2E3E5", color="#41464B"];
+
+    // Foreign Keys to Primary Keys
+    PullRequests:fk_repo -> Repositories:pk [label="repo_id"];
+    PullRequests:fk_author -> Users:pk [label="author_id"];
+    PullRequests:fk_merged_by -> Users:pk [label="merged_by_id", style=dashed];
+
+    Issues:fk_repo -> Repositories:pk [label="repo_id"];
+    Issues:fk_author -> Users:pk [label="author_id"];
+    Issues:fk_pr -> PullRequests:pk [label="pull_request_id"];
+    Issues:fk_assignee -> Users:pk [label="assignee_id"];
+
+    IssueComments:fk_issue -> Issues:pk [label="issue_id"];
+    IssueComments:fk_repo -> Repositories:pk [label="repo_id"];
+    IssueComments:fk_author -> Users:pk [label="author_id"];
+
+    PRReviews:fk_pr -> PullRequests:pk [label="pr_id"];
+    PRReviews:fk_repo -> Repositories:pk [label="repo_id"];
+    PRReviews:fk_reviewer -> Users:pk [label="reviewer_id"];
+
+    PRReviewComments:fk_pr -> PullRequests:pk [label="pr_id"];
+    PRReviewComments:fk_repo -> Repositories:pk [label="repo_id"];
+    PRReviewComments:fk_author -> Users:pk [label="author_id"];
+    PRReviewComments:fk_review -> PRReviews:pk [label="pull_request_review_id"];
+    PRReviewComments:fk_reply -> PRReviewComments:pk [label="in_reply_to_id"];
+
+    Pushes:fk_user -> Users:pk [label="user_id"];
+    Pushes:fk_repo -> Repositories:pk [label="repo_id"];
+}

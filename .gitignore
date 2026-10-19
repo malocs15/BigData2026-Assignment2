@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+.venv/
+venv/
+ENV/
+
+# Data and Parquet files (too large for GitHub)
+data/db/*.parquet
+*.parquet
+tmp_update_repo/
+tmp_*/
+
+# Large outputs & Media
+*.mp4
+*.mkv
+*.avi
+models/*.joblib
+models/*.pt
+models/*.bin
+
+# IDE and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Symlink
+assignment2
