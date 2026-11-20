@@ -32,3 +32,12 @@ models/*.bin
 
 # Symlink
 assignment2
+
+# GH Archive raw files
+raw_gharchive/
+dataset/
+
+# Course instructions (not part of the code)
+anciennes_instructions.pdf
+nouvelles_instructions.pdf
+full_instructions.txt

@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from typing import Dict, Tuple, Set, Optional
 from .config import DATA_DIR, ACTIVITIES
@@ -20,11 +21,11 @@ TIME_COLUMNS = {
 }
 
 
-def load_raw_tables() -> Dict[str, pd.DataFrame]:
-    """Loads all 8 parquet tables from data/db/."""
+def load_raw_tables(data_dir=DATA_DIR) -> Dict[str, pd.DataFrame]:
+    """Loads the 8 parquet tables written by scripts/preprocess.py."""
     tables = {}
     for name in TIME_COLUMNS:
-        path = DATA_DIR / f"{name}.parquet"
+        path = data_dir / f"{name}.parquet"
         tables[name] = pd.read_parquet(path)
     return tables
 
@@ -38,23 +39,18 @@ def filter_tables_by_cutoff(tables: Dict[str, pd.DataFrame], cutoff: pd.Timestam
     filtered = {}
     for name, df in tables.items():
         time_col = TIME_COLUMNS[name]
-        # Keep only rows appearing at or before cutoff
-        df_sub = df[df[time_col] <= cutoff].copy()
+        # Keep only rows whose row time is before the cutoff
+        df_sub = df[df[time_col] < cutoff].copy()
 
-        # Mask known-later columns
-        if name in KNOWN_LATER_COLUMNS:
-            for col in KNOWN_LATER_COLUMNS[name]:
-                if col in df_sub.columns:
-                    if col.endswith("_at"):  # timestamp column
-                        mask = df_sub[col] >= cutoff
-                        df_sub.loc[mask, col] = pd.NaT
-                    elif col == "merged_by_id":
-                        # merged_by is known when merged_at happens
-                        mask = df_sub["merged_at"].isna() | (df_sub["merged_at"] >= cutoff)
-                        df_sub.loc[mask, col] = None
-                    elif col == "state_reason":
-                        mask = df_sub["closed_at"].isna() | (df_sub["closed_at"] >= cutoff)
-                        df_sub.loc[mask, col] = None
+        # Mask known-later columns. The dependent columns (merged_by_id, state_reason) are
+        # masked first, using the original timestamps, then the timestamps themselves.
+        if name == "PullRequests":
+            df_sub.loc[~(df_sub["merged_at"] < cutoff), "merged_by_id"] = np.nan
+        if name == "Issues":
+            df_sub.loc[~(df_sub["closed_at"] < cutoff), "state_reason"] = None
+        for col in KNOWN_LATER_COLUMNS.get(name, []):
+            if col.endswith("_at"):
+                df_sub.loc[df_sub[col] >= cutoff, col] = pd.NaT
 
         filtered[name] = df_sub
     return filtered
@@ -75,7 +71,7 @@ def get_ground_truth(tables: Dict[str, pd.DataFrame], start_time: pd.Timestamp, 
 
     # 2. open_issue: Issues created_at in [start_time, end_time) and is_pull_request == False
     issues = tables["Issues"]
-    iss_mask = (issues["created_at"] >= start_time) & (issues["created_at"] < end_time) & (~issues["is_pull_request"])
+    iss_mask = (issues["created_at"] >= start_time) & (issues["created_at"] < end_time) & (~issues["is_pull_request"].fillna(False).astype(bool))
     iss_authors = set(issues.loc[iss_mask, "author_id"].dropna().astype(int)) & user_ids
     labels.loc[list(iss_authors), "open_issue"] = 1
 

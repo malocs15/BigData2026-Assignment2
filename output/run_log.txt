@@ -1,0 +1,73 @@
+[1/6] Loading tables from /home/malo/Documents/nycu/bigdata/assignment2/dataset/db
+  10,475 users (5,329 cohort); data until 2026-11-20 08:46:29 UTC
+  GH Archive coverage loaded from reports/gharchive_coverage.csv
+[2/6] 6 labelled weekly cutoffs: ['2026-10-03 16:00:00', '2026-10-10 16:00:00', '2026-10-17 16:00:00', '2026-10-24 16:00:00', '2026-10-31 16:00:00', '2026-11-07 16:00:00']
+  cutoff 2026-10-03 16:00:00:  4626 users, 198 features | label coverage / positive rate: open_pr=1.26/9.9% open_issue=1.23/5.5% issue_comment=1.29/6.7% pr_review=1.26/6.6% pr_review_comment=1.08/3.2% push=0.75/43.5%
+  cutoff 2026-10-10 16:00:00:  4822 users, 198 features | label coverage / positive rate: open_pr=0.92/7.9% open_issue=1.02/5.0% issue_comment=0.94/4.7% pr_review=1.03/5.7% pr_review_comment=1.14/3.8% push=0.74/41.3%
+  cutoff 2026-10-17 16:00:00:  4991 users, 198 features | label coverage / positive rate: open_pr=0.94/6.7% open_issue=0.97/4.7% issue_comment=0.92/4.2% pr_review=0.96/4.4% pr_review_comment=1.06/3.4% push=0.48/35.2%
+  cutoff 2026-10-24 16:00:00:  5101 users, 198 features | label coverage / positive rate: open_pr=0.88/6.4% open_issue=0.86/3.8% issue_comment=0.86/4.3% pr_review=0.83/4.7% pr_review_comment=0.39/1.5% push=0.27/18.7%
+  cutoff 2026-10-31 16:00:00:  5167 users, 198 features | label coverage / positive rate: open_pr=1.05/7.1% open_issue=0.99/3.8% issue_comment=1.05/4.9% pr_review=1.03/5.3% pr_review_comment=0.64/2.0% push=0.03/nan%
+  cutoff 2026-11-07 16:00:00:  5200 users, 198 features | label coverage / positive rate: open_pr=0.95/6.3% open_issue=0.93/3.6% issue_comment=0.78/3.9% pr_review=0.93/4.4% pr_review_comment=0.39/1.3% push=0.03/nan%
+
+[3/6] Rolling evaluation on weeks ['2026-10-24', '2026-10-31', '2026-11-07'] (9 feature sets)
+  week 2026-10-24 (train 2 weeks, thresholds on 2026-10-17):
+  Copy last week               Score 37.93  macro 34.80  micro 41.05 | open_pr= 33.9 open_issue= 40.8 issue_comment= 34.3 pr_review= 28.0 pr_review_comment= 24.4 push= 47.5
+  Active in last 4 weeks       Score 31.15  macro 29.55  micro 32.76 | open_pr= 30.0 open_issue= 32.8 issue_comment= 30.3 pr_review= 30.7 pr_review_comment= 17.0 push= 36.5
+  LightGBM (final)             Score 39.85  macro 36.44  micro 43.26 | open_pr= 40.7 open_issue= 40.0 issue_comment= 35.7 pr_review= 31.1 pr_review_comment= 21.8 push= 49.3
+  Ablation: all relational features Score 39.15  macro 35.73  micro 42.57 | open_pr= 40.5 open_issue= 40.9 issue_comment= 35.6 pr_review= 28.5 pr_review_comment= 19.9 push= 49.1
+  Ablation: 8 lag weeks        Score 40.47  macro 37.36  micro 43.58 | open_pr= 40.3 open_issue= 41.2 issue_comment= 35.4 pr_review= 32.3 pr_review_comment= 26.2 push= 48.8
+  Ablation: base only          Score 38.33  macro 35.42  micro 41.24 | open_pr= 37.6 open_issue= 38.8 issue_comment= 32.5 pr_review= 36.6 pr_review_comment= 20.8 push= 46.2
+  Ablation: base + temporal (no relational) Score 41.11  macro 37.86  micro 44.36 | open_pr= 40.1 open_issue= 41.7 issue_comment= 37.9 pr_review= 30.9 pr_review_comment= 27.1 push= 49.5
+  Ablation: base + compact relational (no temporal) Score 38.90  macro 35.83  micro 41.97 | open_pr= 38.1 open_issue= 39.1 issue_comment= 35.3 pr_review= 33.8 pr_review_comment= 21.9 push= 46.7
+  Ablation: base + all relational (no temporal) Score 39.66  macro 36.93  micro 42.40 | open_pr= 40.7 open_issue= 43.1 issue_comment= 36.2 pr_review= 35.0 pr_review_comment= 20.3 push= 46.3
+  Ablation: base + weekly lags only Score 39.28  macro 36.13  micro 42.43 | open_pr= 40.3 open_issue= 38.2 issue_comment= 32.1 pr_review= 33.4 pr_review_comment= 23.6 push= 49.1
+  Ablation: no coverage features Score 40.12  macro 36.87  micro 43.36 | open_pr= 40.8 open_issue= 40.1 issue_comment= 35.2 pr_review= 33.7 pr_review_comment= 22.5 push= 49.0
+  week 2026-10-31 (train 3 weeks, thresholds on 2026-10-24):
+  Copy last week               Score 34.32  macro 33.68  micro 34.95 | open_pr= 34.2 open_issue= 35.5 issue_comment= 35.2 pr_review= 39.1 pr_review_comment= 24.4
+  Active in last 4 weeks       Score 33.18  macro 32.74  micro 33.62 | open_pr= 34.0 open_issue= 34.6 issue_comment= 33.9 pr_review= 37.1 pr_review_comment= 24.1
+  LightGBM (final)             Score 39.17  macro 38.02  micro 40.32 | open_pr= 40.2 open_issue= 42.7 issue_comment= 40.5 pr_review= 43.4 pr_review_comment= 23.4
+  Ablation: all relational features Score 38.39  macro 38.07  micro 38.72 | open_pr= 39.3 open_issue= 42.0 issue_comment= 36.9 pr_review= 41.9 pr_review_comment= 30.2
+  Ablation: 8 lag weeks        Score 37.58  macro 36.85  micro 38.31 | open_pr= 38.3 open_issue= 42.2 issue_comment= 40.6 pr_review= 38.7 pr_review_comment= 24.4
+  Ablation: base only          Score 37.77  macro 36.98  micro 38.55 | open_pr= 40.9 open_issue= 43.0 issue_comment= 35.7 pr_review= 37.6 pr_review_comment= 27.8
+  Ablation: base + temporal (no relational) Score 39.19  macro 38.43  micro 39.96 | open_pr= 39.3 open_issue= 42.3 issue_comment= 42.5 pr_review= 41.6 pr_review_comment= 26.4
+  Ablation: base + compact relational (no temporal) Score 36.64  macro 35.39  micro 37.89 | open_pr= 38.9 open_issue= 40.5 issue_comment= 33.9 pr_review= 40.5 pr_review_comment= 23.1
+  Ablation: base + all relational (no temporal) Score 37.81  macro 37.00  micro 38.62 | open_pr= 41.7 open_issue= 41.1 issue_comment= 35.4 pr_review= 40.4 pr_review_comment= 26.4
+  Ablation: base + weekly lags only Score 38.61  macro 37.07  micro 40.14 | open_pr= 43.1 open_issue= 41.0 issue_comment= 41.7 pr_review= 40.1 pr_review_comment= 19.5
+  Ablation: no coverage features Score 39.74  macro 39.24  micro 40.23 | open_pr= 38.7 open_issue= 43.7 issue_comment= 42.3 pr_review= 43.7 pr_review_comment= 27.9
+  week 2026-11-07 (train 4 weeks, thresholds on 2026-10-31):
+  Copy last week               Score 34.77  macro 34.43  micro 35.11 | open_pr= 33.4 open_issue= 42.1 issue_comment= 34.1 pr_review= 36.2 pr_review_comment= 26.4
+  Active in last 4 weeks       Score 29.95  macro 29.47  micro 30.43 | open_pr= 30.4 open_issue= 35.7 issue_comment= 29.0 pr_review= 33.4 pr_review_comment= 18.9
+  LightGBM (final)             Score 40.06  macro 40.29  micro 39.83 | open_pr= 37.1 open_issue= 45.5 issue_comment= 38.9 pr_review= 39.4 pr_review_comment= 40.6
+  Ablation: all relational features Score 39.00  macro 38.81  micro 39.19 | open_pr= 37.7 open_issue= 46.4 issue_comment= 35.6 pr_review= 40.6 pr_review_comment= 33.7
+  Ablation: 8 lag weeks        Score 40.64  macro 40.92  micro 40.36 | open_pr= 38.0 open_issue= 48.1 issue_comment= 37.5 pr_review= 40.6 pr_review_comment= 40.3
+  Ablation: base only          Score 34.92  macro 34.49  micro 35.36 | open_pr= 34.9 open_issue= 40.2 issue_comment= 34.4 pr_review= 34.4 pr_review_comment= 28.6
+  Ablation: base + temporal (no relational) Score 39.56  macro 39.34  micro 39.77 | open_pr= 39.1 open_issue= 45.9 issue_comment= 40.4 pr_review= 39.9 pr_review_comment= 31.4
+  Ablation: base + compact relational (no temporal) Score 35.77  macro 35.13  micro 36.42 | open_pr= 37.7 open_issue= 39.6 issue_comment= 35.9 pr_review= 33.8 pr_review_comment= 28.6
+  Ablation: base + all relational (no temporal) Score 38.72  macro 38.38  micro 39.07 | open_pr= 38.6 open_issue= 45.0 issue_comment= 38.6 pr_review= 35.1 pr_review_comment= 34.6
+  Ablation: base + weekly lags only Score 37.64  macro 37.55  micro 37.74 | open_pr= 36.5 open_issue= 47.8 issue_comment= 35.2 pr_review= 34.3 pr_review_comment= 33.9
+  Ablation: no coverage features Score 38.75  macro 38.64  micro 38.87 | open_pr= 36.4 open_issue= 48.6 issue_comment= 36.9 pr_review= 39.5 pr_review_comment= 31.8
+
+[4/6] Mean over the 3 validation weeks
+  Copy last week               Score 35.67  macro 34.30  micro 37.04 | open_pr= 33.8 open_issue= 39.4 issue_comment= 34.5 pr_review= 34.4 pr_review_comment= 25.1 push= 47.5
+  Active in last 4 weeks       Score 31.43  macro 30.58  micro 32.27 | open_pr= 31.5 open_issue= 34.4 issue_comment= 31.1 pr_review= 33.7 pr_review_comment= 20.0 push= 36.5
+  LightGBM (final)             Score 39.69  macro 38.25  micro 41.14 | open_pr= 39.3 open_issue= 42.7 issue_comment= 38.4 pr_review= 38.0 pr_review_comment= 28.6 push= 49.3
+  Ablation: all relational features Score 38.85  macro 37.53  micro 40.16 | open_pr= 39.2 open_issue= 43.1 issue_comment= 36.0 pr_review= 37.0 pr_review_comment= 27.9 push= 49.1Format check: no errors (4465 users)
+
+  Ablation: 8 lag weeks        Score 39.56  macro 38.38  micro 40.75 | open_pr= 38.9 open_issue= 43.8 issue_comment= 37.8 pr_review= 37.2 pr_review_comment= 30.3 push= 48.8
+  Ablation: base only          Score 37.01  macro 35.63  micro 38.39 | open_pr= 37.8 open_issue= 40.7 issue_comment= 34.2 pr_review= 36.2 pr_review_comment= 25.7 push= 46.2
+  Ablation: base + temporal (no relational) Score 39.96  macro 38.55  micro 41.37 | open_pr= 39.5 open_issue= 43.3 issue_comment= 40.3 pr_review= 37.5 pr_review_comment= 28.3 push= 49.5
+  Ablation: base + compact relational (no temporal) Score 37.10  macro 35.45  micro 38.76 | open_pr= 38.2 open_issue= 39.7 issue_comment= 35.0 pr_review= 36.1 pr_review_comment= 24.5 push= 46.7
+  Ablation: base + all relational (no temporal) Score 38.73  macro 37.43  micro 40.03 | open_pr= 40.4 open_issue= 43.1 issue_comment= 36.7 pr_review= 36.8 pr_review_comment= 27.1 push= 46.3
+  Ablation: base + weekly lags only Score 38.51  macro 36.91  micro 40.11 | open_pr= 40.0 open_issue= 42.3 issue_comment= 36.3 pr_review= 35.9 pr_review_comment= 25.7 push= 49.1
+  Ablation: no coverage features Score 39.54  macro 38.25  micro 40.82 | open_pr= 38.6 open_issue= 44.1 issue_comment= 38.1 pr_review= 38.9 pr_review_comment= 27.4 push= 49.0
+
+[5/6] Final model: train on 5 weeks, thresholds on week 2026-11-07, refit on all 6 weeks
+    open_pr            threshold 0.20  (F1 on calibration week 39.94%)
+    open_issue         threshold 0.26  (F1 on calibration week 48.41%)
+    issue_comment      threshold 0.20  (F1 on calibration week 40.90%)
+    pr_review          threshold 0.30  (F1 on calibration week 42.05%)
+    pr_review_comment  threshold 0.19  (F1 on calibration week 41.38%)
+    push               threshold 0.52  (not observable in the last week: median of the thresholds tuned during evaluation)
+[6/6] Predicting 4465 test users (148 unseen in data) for the week 2026-11-21 16:00:00 -> 2026-11-28 16:00:00 UTC
+  NOTE: data ends at 2026-11-20 08:46:29; test features computed at 2026-11-20 09:00:00 (31 h before the test cutoff)
+  wrote /home/malo/Documents/nycu/bigdata/assignment2/output/output_315551818.csv  (predicted positive rates: open_pr=6.7% open_issue=3.5% issue_comment=3.6% pr_review=1.9% pr_review_comment=1.0% push=7.0%)

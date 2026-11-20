@@ -9,6 +9,7 @@ Outputs:
 """
 
 import os
+DATA_DIR = os.environ.get("DATA_DIR", "dataset/db")
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -126,14 +127,14 @@ print("Saved reports/schema_graph.png")
 # 2. Relational Entity Graph Generation
 # ==========================================
 print("Loading data for relational entity graph...")
-users_df = pd.read_parquet("data/db/Users.parquet")
-repos_df = pd.read_parquet("data/db/Repositories.parquet")
-prs_df = pd.read_parquet("data/db/PullRequests.parquet")
-issues_df = pd.read_parquet("data/db/Issues.parquet")
-ic_df = pd.read_parquet("data/db/IssueComments.parquet")
-prr_df = pd.read_parquet("data/db/PRReviews.parquet")
-prrc_df = pd.read_parquet("data/db/PRReviewComments.parquet")
-pushes_df = pd.read_parquet("data/db/Pushes.parquet")
+users_df = pd.read_parquet(os.path.join(DATA_DIR, "Users.parquet"))
+repos_df = pd.read_parquet(os.path.join(DATA_DIR, "Repositories.parquet"))
+prs_df = pd.read_parquet(os.path.join(DATA_DIR, "PullRequests.parquet"))
+issues_df = pd.read_parquet(os.path.join(DATA_DIR, "Issues.parquet"))
+ic_df = pd.read_parquet(os.path.join(DATA_DIR, "IssueComments.parquet"))
+prr_df = pd.read_parquet(os.path.join(DATA_DIR, "PRReviews.parquet"))
+prrc_df = pd.read_parquet(os.path.join(DATA_DIR, "PRReviewComments.parquet"))
+pushes_df = pd.read_parquet(os.path.join(DATA_DIR, "Pushes.parquet"))
 
 u1, u2 = 22996444, 28983449
 target_users = users_df[users_df["github_user_id"].isin([u1, u2])]
