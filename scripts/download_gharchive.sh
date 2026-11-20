@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Download GH Archive hourly files (https://www.gharchive.org) for a UTC date range.
 #
-# Usage: bash scripts/download_gharchive.sh [START_DATE] [END_DATE] [RAW_DIR]
-#   START_DATE / END_DATE : YYYY-MM-DD (UTC, inclusive). Default: 2026-09-01 .. 2026-11-21
+# Usage: bash scripts/download_gharchive.sh [START_DATE] [END_DATE] [RAW_DIR] [END_HOUR]
+#   START_DATE / END_DATE : YYYY-MM-DD (UTC, inclusive). Default: 2026-09-01 .. 2026-11-20
+#   END_HOUR              : last hour (0-23, UTC) downloaded on END_DATE. Default: 8
+#   The defaults are the exact period used for the submission: 2026-09-01-0 .. 2026-11-20-8.
 #   RAW_DIR               : output folder. Default: raw_gharchive
 #
 # Optional environment variables:
@@ -16,8 +18,9 @@
 set -uo pipefail
 
 START="${1:-2026-09-01}"
-END="${2:-2026-11-21}"
+END="${2:-2026-11-20}"
 RAW_DIR="${3:-raw_gharchive}"
+END_HOUR="${4:-8}"
 JOBS="${JOBS:-8}"
 IFACES="${IFACES:-default:${JOBS}}"
 
@@ -29,7 +32,9 @@ trap 'rm -f "${QUEUE}" "${QUEUE}.lock"' EXIT
 # 1. the list of hour files still to download
 d="${START}"
 while [[ "$(date -u -d "${d}" +%s)" -le "$(date -u -d "${END}" +%s)" ]]; do
-    for h in $(seq 0 23); do
+    last=23
+    [[ "${d}" == "${END}" ]] && last="${END_HOUR}"
+    for h in $(seq 0 "${last}"); do
         [[ -f "${RAW_DIR}/${d}-${h}.json.gz" ]] || echo "${d}-${h}.json.gz"
     done
     d="$(date -u -d "${d} + 1 day" +%F)"

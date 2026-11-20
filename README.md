@@ -16,8 +16,10 @@ The data used in this project comes from **[GH Archive](https://www.gharchive.or
 archive of GitHub events, processed with the course's `scripts/preprocess.py` (8 tables,
 anonymized). It is used only for educational purposes within this course.
 
-**Period used:** GH Archive hour files from **2026-09-01 00:00 UTC to 2026-11-21 (latest hour
-available when the model was run)**. `preprocess.py` ignores files before 2025-12-01.
+**Period used:** GH Archive hour files **`2026-09-01-0.json.gz` to `2026-11-20-8.json.gz`**
+(2026-09-01 00:00 → 2026-11-20 08:59 UTC, 1,929 files, the last hour published when the model was
+run). Use exactly this period to reproduce the submitted output: more recent hours change the
+test features and add a labelled week. `preprocess.py` ignores files before 2025-12-01.
 
 ## 1. Project structure
 
@@ -58,8 +60,8 @@ pip install -r requirements.txt
 ## 3. Reproduce the submission
 
 ```bash
-# 1. Download the GH Archive hour files (about 30 GB)
-bash scripts/download_gharchive.sh 2026-09-01 2026-11-21 raw_gharchive
+# 1. Download the GH Archive hour files 2026-09-01-0 .. 2026-11-20-8 (1,929 files, about 29 GB)
+bash scripts/download_gharchive.sh 2026-09-01 2026-11-20 raw_gharchive 8
 
 # 2. Build the 8 tables with the course preprocessing script (writes dataset/db/*.parquet)
 python scripts/preprocess.py --raw raw_gharchive --out dataset

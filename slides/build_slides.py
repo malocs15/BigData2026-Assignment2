@@ -885,7 +885,7 @@ cols3 = [
     ("Next steps", GREEN_LT, GREEN, [
         "Relational deep learning (GNN with time encoding) on the same snapshots",
         "Learn per-week capture correction jointly with the model",
-        "Re-run with the last GH Archive hours before submission"]),
+        "Add the GH Archive hours published after Nov 20 08:00 UTC for fresher test features"]),
 ]
 for i, (t_, f, c, lines) in enumerate(cols3):
     card(s, 0.5 + i * 3.05, 1.0, 2.85, 2.55, t_, [{"runs": [(l_, {})], "bullet": True, "space_after": 6}
