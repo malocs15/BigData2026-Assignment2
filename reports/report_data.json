@@ -1,0 +1,34 @@
+{
+  "table_rows": {
+    "Users": 10475,
+    "Repositories": 20931,
+    "PullRequests": 44720,
+    "Issues": 28908,
+    "IssueComments": 16020,
+    "PRReviews": 13343,
+    "PRReviewComments": 10218,
+    "Pushes": 89803
+  },
+  "cohort_users_in_data": 5329,
+  "data_start": "2026-09-01 00:00:00",
+  "data_end": "2026-11-20 08:00:00",
+  "importance_share_by_group": {
+    "base": 0.0417,
+    "relational": 0.079,
+    "temporal": 0.8793
+  },
+  "top_features": {
+    "all_decay_momentum": 8285.1,
+    "pr_review_decay_momentum": 3689.3,
+    "push_decay_momentum": 3643.8,
+    "open_issue_decay_momentum": 3487.1,
+    "open_pr_decay_momentum": 3194.1,
+    "all_days_since": 2999.7,
+    "issue_comment_decay_momentum": 2459.1,
+    "review_to_pr_ratio": 2055.2,
+    "tenure_days": 1986.4,
+    "issue_comment_rate_8w": 1969.1,
+    "weekend_share": 1780.1,
+    "issue_comment_days_since": 1734.2
+  }
+}

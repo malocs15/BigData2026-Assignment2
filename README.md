@@ -31,13 +31,16 @@ available when the model was run)**. `preprocess.py` ignores files before 2025-1
 │   ├── cohort.txt                # course file: the 9,000 cohort users (read by preprocess.py)
 │   ├── evaluate.py               # course script: format check and scoring
 │   ├── coverage.py               # counts each event type per GH Archive hour (data-quality map)
-│   └── generate_graphs.py        # Question 1 figures (schema graph, entity graph)
+│   ├── report_data.py            # numbers for the slides (weekly capture, importance per group)
+│   ├── run_all.sh                # full reproduction, from download to slides
+│   └── generate_graphs.py        # earlier networkx figures (the Q1 schema graph is drawn in the slides)
 ├── src/
 │   ├── config.py                 # paths, activities, test cutoff, data period
 │   ├── data_loader.py            # loading, point-in-time filtering, known-later masking, labels
 │   ├── coverage.py               # hourly GH Archive coverage per activity
 │   ├── features.py               # base / temporal / relational features
 │   └── model.py                  # one LightGBM per activity + F1-optimal thresholds
+├── slides/                       # build_slides.py (on the course template) → Asg2_315551818.pptx / .pdf
 ├── submission/                   # course files: test_input.csv, sample_submission.csv
 ├── reports/                      # figures, coverage table, validation results, feature importance
 └── output/                       # output_315551818.csv and validation files
@@ -70,6 +73,8 @@ python main.py --ablation
 # 5. Check the output format
 python scripts/evaluate.py --pred output/output_315551818.csv --input submission/test_input.csv
 ```
+
+Or everything at once, including the slides: `bash scripts/run_all.sh` (set `PYTHON=.venv/bin/python` if needed).
 
 `main.py` options: `--data-dir` (default `dataset/db`), `--test-input` (default
 `submission/test_input.csv`), `--student-id`. LightGBM uses a fixed seed (42).
