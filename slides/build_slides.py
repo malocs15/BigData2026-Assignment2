@@ -331,8 +331,9 @@ order = []
 for sh in title_s.shapes:
     if sh.has_text_frame and sh.text_frame.text.startswith("Assignment 2"):
         sh.top = Inches(1.15)
-text(title_s, 1.0, 2.95, 8.0, 0.75, [
-    {"runs": [("Student ID 315551818", {"bold": True})], "align": PP_ALIGN.CENTER},
+text(title_s, 1.0, 2.92, 8.0, 0.95, [
+    {"runs": [("Malo Joannon", {"bold": True, "size": 14})], "align": PP_ALIGN.CENTER},
+    {"runs": [("Student ID 315551818", {})], "align": PP_ALIGN.CENTER},
     {"runs": [("GitHub: ", {}), (REPO_URL, {"link": REPO_URL, "color": INDIGO})], "align": PP_ALIGN.CENTER},
 ], size=12, color=DARK)
 notes(title_s, "Introduce the task: predict 6 GitHub activities for 4,465 test users in the week of Nov 22-29.")
